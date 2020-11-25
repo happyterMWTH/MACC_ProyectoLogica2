@@ -67,33 +67,33 @@ def decodifica(letra):
     n = letra * 2
     x, y, z = encontrarCode(n)
     return x, y, z
-num = []
-for i in N:
-    for j in C:
-        for k in T:
-            v1 = codifica(i, j, k)
-            print(v1, end=" ")
-            num.append(v1)
-    print("")
-print(num)
-for v1 in num:
-    x, y, z = decodifica(v1)
-    print('Casilla: '+str(x)+', Elemento: '+str(y)+', Tipo: '+str(z))
-letras = []
-for i in N:
-    for j in C:
-        for k in T:
-            v1 = codifica(i, j, k)
-            cod = chr(v1 + 256)
-            print(cod, end = " ")
-            letras.append(cod)
-print("")
-for cod in letras:
-    print('Letra = ' + cod, end =', ')
-    x, y, z = decodifica(ord(cod) - 256)
-    print('Casilla = ' + str(x), end =', ')
-    print('Elemento = ' + str(y), end = ", ")
-    print('Tipo = ' + str(z))
+# num = []
+# for i in N:
+#     for j in C:
+#         for k in T:
+#             v1 = codifica(i, j, k)
+#             print(v1, end=" ")
+#             num.append(v1)
+#     print("")
+# print(num)
+# for v1 in num:
+#     x, y, z = decodifica(v1)
+#     print('Casilla: '+str(x)+', Elemento: '+str(y)+', Tipo: '+str(z))
+# letras = []
+# for i in N:
+#     for j in C:
+#         for k in T:
+#             v1 = codifica(i, j, k)
+#             cod = chr(v1 + 256)
+#             print(cod, end = " ")
+#             letras.append(cod)
+# print("")
+# for cod in letras:
+#     print('Letra = ' + cod, end =', ')
+#     x, y, z = decodifica(ord(cod) - 256)
+#     print('Casilla = ' + str(x), end =', ')
+#     print('Elemento = ' + str(y), end = ", ")
+#     print('Tipo = ' + str(z))
 def cod(n):
     return chr(n + 256)
 def decod(x):
@@ -111,14 +111,14 @@ def regla_2():
                 inicial2 = True
                 for elem in range(len(C)):
                     if inicial2:
-                        formula = formula + str(cod(codifica(pos + 1, elem + 1, 3)))
+                        formula = formula + cod(codifica(pos + 1, elem + 1, 3))
                         inicial2 = False
                     else:
-                        formula = formula + str(cod(codifica(pos + 1, elem + 1, 3))) + 'O'
+                        formula = formula + cod(codifica(pos + 1, elem + 1, 3)) + 'O'
                 if inicial:
                     inicial = False
                 else:
-                    formula = formula + 'O'
+                    formula = formula + 'Y'
             if inicial3:
                 inicial3 = False
             else:
@@ -155,12 +155,6 @@ def regla_2():
     print(formula)
     print(Inorderp(String2Tree(formula)))
 
-
-
-
-
-
-
 def Regla3():
     formula = ""
     inicial = True
@@ -180,7 +174,50 @@ def Regla3():
     print(formula)
     print(Inorderp(String2Tree(formula)))
 
+def regla_4():
+    formula = ""
+    first = True
+    for pos in range(len(N)):
+        inicial = True
+        for elem in range(len(C)):
+            for type in range(len(T)):
+                if inicial:
+                    formula = formula + str(cod(codifica(pos + 1, elem + 1, type + 1)))
+                    inicial = False
+                else:
+                    for elemX in range(len(C)):
+                        for typeX in range(len(T)):
+                            if elemX == elem and typeX == type:
+                                continue
+                            else:
+                                formula = formula + str(cod(codifica(pos + 1, elemX + 1, typeX + 1))) + '-Y'
+
+    print(formula)
+
+def regla_5():
+    formula = ""
+    then = True
+    for elem in range(len(C)):
+        for type in range(len(T)):
+            inicial = True
+            for pos in range(len(N)):
+                if inicial:
+                    formula = formula + str(cod(codifica(pos + 1, elem + 1, type + 1))) + '>'
+                    inicial = False
+                else:
+                    for posX in range(len(N)):
+                        print(str(pos) + str(posX))
+                        if posX == pos:
+
+                            continue
+                        else:
+                            formula = formula + str(cod(codifica(posX + 1, elem + 1, type + 1))) + '-'
+        if then:
+            then = False
+        else:
+            formula = formula + 'O'
+    print(formula)
+    #print(Inorderp(String2Tree(formula)))
+
 
 regla_2()
-A = 'ĒĕOĘOěOĞġOĤOħOOĪĭOİOĳOOĶĹOļOĿOOłŅOňOŋOOĒĕOĘOěOĞġOĤOħOOĪĭOİOĳOOĶĹOļOĿOOłŅOňOŋOOYĒĕOĘOěOĞġOĤOħOO'
-print(Inorderp(String2Tree(A)))
