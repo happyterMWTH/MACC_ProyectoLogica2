@@ -100,7 +100,66 @@ def decod(x):
     return decodifica(ord(x) - 256)
 
 def regla_2():
-    pass
+    defensivo = 3
+    formula = ""
+    inicial3 = True
+
+    while defensivo > 0:
+        for i in range(defensivo):
+            inicial = True
+            for pos in range(len(N)):
+                inicial2 = True
+                for elem in range(len(C)):
+                    if inicial2:
+                        formula = formula + str(cod(codifica(pos + 1, elem + 1, 3)))
+                        inicial2 = False
+                    else:
+                        formula = formula + str(cod(codifica(pos + 1, elem + 1, 3))) + 'O'
+                if inicial:
+                    inicial = False
+                else:
+                    formula = formula + 'O'
+            if inicial3:
+                inicial3 = False
+            else:
+                formula = formula + 'Y'
+        inicial = True
+        for i in range(5 - defensivo):
+
+            for type in range(len(T)):
+                if type + 1 != 3:
+                    inicialDos = True
+                    for elem in range(len(C)):
+                        for pos in range(len(N)):
+                            if inicialDos:
+                                    formula = formula + str(cod(codifica(pos + 1, elem + 1, type + 1)))
+                                    inicialDos = False
+                            else:
+                                    formula = formula + str(cod(codifica(pos + 1, elem + 1, type + 1))) + "O"
+
+                else:
+                    continue
+            if inicial:
+                inicial = False
+            else:
+                formula = formula + 'O'
+
+            formula = formula + 'Y'
+
+
+
+
+        defensivo -= 1
+
+
+    print(formula)
+    print(Inorderp(String2Tree(formula)))
+
+
+
+
+
+
 
 def Regla3():
     formula = ""
@@ -122,5 +181,6 @@ def Regla3():
     print(Inorderp(String2Tree(formula)))
 
 
-
-Regla3()
+regla_2()
+A = 'ĒĕOĘOěOĞġOĤOħOOĪĭOİOĳOOĶĹOļOĿOOłŅOňOŋOOĒĕOĘOěOĞġOĤOħOOĪĭOİOĳOOĶĹOļOĿOOłŅOňOŋOOYĒĕOĘOěOĞġOĤOħOO'
+print(Inorderp(String2Tree(A)))
