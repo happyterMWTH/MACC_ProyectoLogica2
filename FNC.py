@@ -47,7 +47,7 @@ def enFNC(A):
 # Input: A (cadena) en notacion inorder
 # Output: B (cadena), Tseitin
 def Tseitin(A, letrasProposicionalesA):
-    letrasProposicionalesB = [chr(x) for x in range(65, 91)]
+    letrasProposicionalesB = [chr(x) for x in range(100, 255)]
     assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB))), u"¡Hay letras proposicionales en común!"
 
     #  IMPLEMENTAR AQUI ALGORITMO TSEITIN
@@ -131,6 +131,3 @@ def formaClausal(A):
             else:
                 I += 1
     return L
-
-A = "abcd"
-print(A[-3])

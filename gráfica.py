@@ -19,15 +19,21 @@ objects = [magic, physic, defensive]
 #################
 # importando paquetes para dibujar
 print("Importando paquetes...")
+import FNC as f
+import DPLL as dp
 import matplotlib
+import test as reglas
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 print("Listo!")
-
-
-
+print(reglas.letras())
+letrasProposicionalesB = [chr(x) for x in range(341, 410)]
+print(letrasProposicionalesB)
+rule = reglas.regla_3()
+A = f.Tseitin(rule, reglas.letras())
+print(A)
 BG_color = (0.6132, 0.6523, 0.8359)
 
 
