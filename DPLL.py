@@ -24,7 +24,7 @@
     # S''' = {[]}
     # Ahora que en S''' existe una cláusula vacía, es Insatisfacible.
 
-
+import copy
 
 def unitario(a):
     if len(a) == 1:
@@ -61,7 +61,7 @@ def removeClaus(S, a):
             total.append(i)
     return total
 def unitPropagate(S, I):
-    global vacio
+    vacio = False
     if len(S) == 0:
         return S, I
     for i in S:
@@ -94,17 +94,27 @@ def DPLL(S, I):
     if len(S) == 0:
         return "Satisfacible", I
     else:
-        for i in S:
-            if len(i) == 1:
-                return DPLL(S, I)
-        x = i[0]
+        backS = copy.deepcopy(S)
+        backI = copy.deepcopy(I)
+        x = S[0][0]
         S = removeClaus(S, x)
         S = removeFrom(S, complemento(x))
         if x[0] == '-':
             I[complemento(x)] = 0
         else:
             I[x] = 1
-        return DPLL(S, I)
+        Sp, Ip = DPLL(S, I)
+        if Sp == "Satisfacible":
+            return "Satisfacible", Ip
+        else:
+            x = complemento(x)
+            S = removeClaus(backS, x)
+            S = removeFrom(S, complemento(x))
+            if x[0] == '-':
+                I[complemento(x)] = 0
+            else:
+                I[x] = 1
+            return DPLL(S, I)
 
 
 A_1 = [['p', 'q', 'r'],

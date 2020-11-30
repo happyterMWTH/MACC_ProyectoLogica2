@@ -38,6 +38,10 @@ def enFNC(A):
         r = A[5]
         # print('r', r)
         B = q+"O"+p+"Y-"+r+"O"+p+"Y-"+q+"O"+r+"O-"+p
+    elif "=" in A:
+        q = A[3]
+        r = A[5]
+        B = q+"O"+"-"+r+"O"+"-"+p+"Y"+"-"+q+"O"+r+"O"+"-"+p+"Y"+"-"+q+"O"+"-"+r+"O"+p+"Y"+q+"O"+r+"O"+p
     else:
         print(u'Error enENC(): Fórmula incorrecta!')
 
@@ -47,16 +51,16 @@ def enFNC(A):
 # Input: A (cadena) en notacion inorder
 # Output: B (cadena), Tseitin
 def Tseitin(A, letrasProposicionalesA):
-    letrasProposicionalesB = [chr(x) for x in range(100, 255)]
+    letrasProposicionalesB = [chr(x) for x in range(1000, 20000)]
+    atomos = letrasProposicionalesA + letrasProposicionalesB
     assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB))), u"¡Hay letras proposicionales en común!"
-
     #  IMPLEMENTAR AQUI ALGORITMO TSEITIN
     L = []
     pila = []
     I = -1
     s = A[0]
     while len(A) > 0:
-        if (s in letrasProposicionalesA or s in letrasProposicionalesB) and len(pila) != 0 and pila[-1] == '-':
+        if s in atomos and len(pila) != 0 and pila[-1] == '-':
             I += 1
             atomo = letrasProposicionalesB[I]
             pila = pila[:-1]
