@@ -142,56 +142,67 @@ def dibujar_tablero(f, n):
 
 
 def solucion():
-
-    do = False
+    time_begin = time.time()
+    do = True
     newInt = None
-    while not do:
-        time_1 = time.time()
-        reg = r.letras()
+    time_1 = time.time()
+    reg = r.letras()
+    casos = []
+    iteration = 0
+    while do:
         F = []
+        xd = []
         c = 0
+        iteration += 1
+        print("Iteración ", iteration)
         while c < 5:
+
             x = reg[random.randrange(0, len(reg))]
             if x not in F:
+                xd.append(r.decod(x))
                 F.append(x)
                 c += 1
             else:
                 pass
-        print("Elegidos (épico): ", F)
-        x = [r.cod(r.codifica(5, 1, 3)), r.cod(r.codifica(4, 2, 3)), r.cod(r.codifica(3, 3, 3)), r.cod(r.codifica(2, 2, 2)), r.cod(r.codifica(1, 2, 1))]
-        #A = r.regla_4() + r.regla_5() + 'Y' + r.regla_3() + 'Y' + F[0] + 'Y' #+ F[1] + 'Y' + F[2] + 'Y' + F[3] + 'Y' + F[4] + 'Y'
-        A = r.regla_5() + r.regla_4() + 'Y' + F[0] + 'Y' + F[1] + 'Y' + F[2] + 'Y' + F[3] + 'Y' + F[4] + 'Y'
-        A = r.regla_2() + r.regla_1() + 'Y' + r.regla_5() + 'Y' + r.regla_3() + 'Y' + F[0] + 'Y' + F[1] + 'Y' + F[2] + 'Y' + F[3] + 'Y' + F[4] + 'Y'
-        A = x[0] + x[1] + 'Y' + x[2] + 'Y' + x[3] + 'Y' + x[4] + 'Y' + r.regla_4() + 'Y'
-        #A = r.regla_2() + F[0] + 'Y' + F[1] + 'Y' + F[2] + 'Y' + F[3] + 'Y' + F[4] + 'Y'
-        A = r.String2Tree(A)
-        print(A)
-        A = r.InorderpE(A)
-        print(A)
-        A = f.Tseitin(A, r.letras())
-        print("resultado Tseitin: ", A)
-        fC = f.formaClausal(A)
-        print("resultado Clausal: ", fC)
-        I = {}
-        dPLL = dp.DPLL(fC, I)
-        print("resultado DPLL: ", dPLL[1])
-        I = {}
-        for key in dPLL[1].keys():
-            if ord(key) < 500:
-                I[key] = dPLL[1][key]
-        print("Interps")
-        newInt = []
-        for key in I.keys():
-            if I[key] == 1:
-                newInt.append(r.decod(key))
-        if len(I) != 0:
-            do = True
-        time_2 = time.time()
-        time_tot = time_2 - time_1
-        print("Tiempo: ", time_tot)
+        print("Letras base: ", F)
+        print("Objetos: ", xd)
+        time_min = time.time()
+        if F not in casos:
+            casos.append(F)
+
+            A = r.regla_4() + r.regla_5() + 'Y' + r.regla_2() + 'Y' + r.regla_1() + 'Y' + r.regla_3() + 'Y'\
+                + F[0] + 'Y' + F[1] + 'Y' + F[2] + 'Y' #+ F[3] + 'Y' + F[4] + 'Y'
+            A = r.String2Tree(A)
+            A = r.InorderpE(A)
+            A = f.Tseitin(A, r.letras())
+            fC = f.formaClausal(A)
+            I = {}
+            dPLL = dp.DPLL(fC, I)
+            I = {}
+            for key in dPLL[1].keys():
+                if ord(key) < 500:
+                    I[key] = dPLL[1][key]
+            print("Interps")
+            if len(I) != 0:
+                do = False
+            else:
+                print("Letras inválidas. Recalibrando")
+            newInt = []
+            for key in I.keys():
+                if I[key] == 1:
+                    newInt.append(r.decod(key))
+        else:
+            print("Caso repetido.")
+        time_max = time.time()
+        time_tot = time_max - time_min
+        print("Tiempo de subproceso: ", time_tot, "\n")
 
 
-    print(newInt)
+
+
     dibujar_tablero(newInt, 0)
+    time_end = time.time()
+    total_time = time_end - time_begin
+    print("Tiempo total: ", total_time)
 
 solucion()

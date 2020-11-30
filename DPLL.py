@@ -25,7 +25,8 @@
     # Ahora que en S''' existe una cláusula vacía, es Insatisfacible.
 
 import copy
-
+import sys
+sys.setrecursionlimit(2000)
 def unitario(a):
     if len(a) == 1:
         return a
@@ -84,6 +85,7 @@ def unitPropagate(S, I):
                 return unitPropagate(S, I)
             else: continue
         return S, I
+
 def DPLL(S, I):
     global i
     S, I = unitPropagate(S, I)

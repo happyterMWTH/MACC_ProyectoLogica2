@@ -97,7 +97,6 @@ def letras():
             for k in T:
                 v1 = codifica(i, j, k)
                 num.append(cod(v1))
-    print(num)
     return num
 
 
@@ -220,7 +219,6 @@ def regla_2():
             + regla_2_d(0) + 'O'
 
     return formula
-print(Inorderp(String2Tree(regla_2())))
 
 
 def regla_3():
@@ -261,6 +259,7 @@ def regla_4_def(pos, element, clase):
                     formula = formula + cod(codifica(pos + 1, elem + 1, type + 1)) + 'O'
     formula = formula + endF
     return formula
+
 def regla_4():
     formula = ""
     inicial = True
@@ -273,7 +272,6 @@ def regla_4():
                 else:
                     formula = formula + regla_4_def(pos, elem, type) + 'Y'
     return formula
-
 def regla_5_def(position, elem, type):
     formula = ""
     endF = ""
@@ -282,7 +280,7 @@ def regla_5_def(position, elem, type):
     for pos in range(len(N)):
         if end:
             end = False
-            endF = '-' + cod(codifica(position + 1, elem + 1, type + 1)) + '='
+            endF = '-' + cod(codifica(position + 1, elem + 1, type + 1)) + '>'
 
         if pos == position:
             continue
@@ -307,4 +305,16 @@ def regla_5():
                     formula = formula + regla_5_def(pos, elem, type)
                 else:
                     formula = formula + regla_5_def(pos, elem, type) + 'Y'
+    return formula
+#print(Inorderp(String2Tree(regla_5())))
+
+def lifeSaver(f):
+    formula = ""
+    inicial = True
+    for i in f:
+        if inicial:
+            inicial = False
+            formula = formula + cod(codifica(i[0], i[1], i[2]))
+        else:
+            formula = formula + cod(codifica(i[0], i[1], i[2])) + 'Y'
     return formula
